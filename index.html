@@ -19,10 +19,14 @@
       background: linear-gradient(180deg, #ffe4ec 0%, #fff8fb 100%);
       color: #333;
       overflow-x: hidden;
+      position: relative;
+      height: 100vh;
     }
     header {
       text-align: center;
       padding-top: 30px;
+      position: relative;
+      z-index: 10;
     }
     h1 {
       font-family: 'Pacifico', cursive;
@@ -55,6 +59,8 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
       max-width: 700px;
       text-align: center;
+      position: relative;
+      z-index: 10;
     }
     .quote {
       font-style: italic;
@@ -67,17 +73,20 @@
       font-size: 13px;
       color: var(--muted);
       margin: 30px 0;
+      z-index: 10;
+      position: relative;
     }
-    .icon {
+    .petal {
       position: fixed;
-      font-size: 20px;
+      top: -10px;
+      font-size: 22px;
       opacity: 0.8;
-      animation: floatUp 8s linear infinite;
-      z-index: 0;
+      animation: fall linear infinite;
+      z-index: 1;
     }
-    @keyframes floatUp {
-      0% { transform: translateY(100vh) scale(1); opacity: 0.8; }
-      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 0.9; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
     #musicControl {
       position: fixed;
@@ -94,13 +103,14 @@
       font-size: 22px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       cursor: pointer;
+      z-index: 20;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Untuk Jeje Tercinta 💖</h1>
-    <img src="images/avatar.jpg" alt="Jeje">
+    <img src="avatar.jpg" alt="Jeje Cantik">
     <p class="lead">Hai Jeje, kalau hari ini rasanya berat... tenang aja ya. Dunia gak seburuk itu kok. Kamu cuma lagi butuh istirahat dan sedikit senyum. 🌷</p>
   </header>
 
@@ -112,9 +122,9 @@
   <div class="card">
     <h3 style="color:#ff7da9;">Hal-hal kecil yang bisa bikin kamu tenang 🩷</h3>
     <div class="grid">
-      <img src="images/flower.jpg" style="width:100%;border-radius:12px;margin-top:8px;">
-      <img src="images/sky.jpg" style="width:100%;border-radius:12px;margin-top:8px;">
-      <img src="images/coffee.jpg" style="width:100%;border-radius:12px;margin-top:8px;">
+      <img src="sushi.jpg" style="width:100%;border-radius:12px;margin-top:8px;">
+      <img src="penguin.jpg" style="width:100%;border-radius:12px;margin-top:8px;">
+      <img src="bunga.jpg" style="width:100%;border-radius:12px;margin-top:8px;">
     </div>
   </div>
 
@@ -131,20 +141,22 @@
   <div id="musicControl">🎵</div>
 
   <script>
-    const icons = ['💖','🌸','🩷','✨','🌷','💫','🌼'];
-    function createIcons(){
-      for(let i=0;i<15;i++){
-        const icon=document.createElement('div');
-        icon.className='icon';
-        icon.textContent=icons[Math.floor(Math.random()*icons.length)];
-        icon.style.left=Math.random()*100+'vw';
-        icon.style.animationDelay=Math.random()*8+'s';
-        icon.style.fontSize=(18+Math.random()*10)+'px';
-        document.body.appendChild(icon);
-      }
+    // Efek bunga & hati berjatuhan
+    const petals = ['🌸','💖','🌷','🩷'];
+    function createPetal() {
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      petal.textContent = petals[Math.floor(Math.random() * petals.length)];
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.animationDuration = (5 + Math.random() * 5) + 's';
+      petal.style.fontSize = (18 + Math.random() * 10) + 'px';
+      petal.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 10000);
     }
-    createIcons();
+    setInterval(createPetal, 300);
 
+    // Musik kontrol
     const music = document.getElementById('bgm');
     const control = document.getElementById('musicControl');
     let playing = true;
